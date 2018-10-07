@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { ServerElement } from '../serverElement.model';
 import { Content } from '@angular/compiler/src/render3/r3_ast';
 
@@ -11,22 +11,21 @@ export class AddServerComponent implements OnInit {
   @Output() onServerCreated = new EventEmitter<ServerElement>();
   @Output() onBluePrintCreated = new EventEmitter<ServerElement>();
   
-  //name : string = '';
-  //content : string = '';
-
+  @ViewChild('serverNameInput') serverNameInput : ElementRef;
+  @ViewChild('serverContentInput') serverContentInput : ElementRef;
+  
   constructor() { }
 
   ngOnInit() {
   }
 
-  onAddServer(serverNameInput : HTMLInputElement, serverContentInput : HTMLInputElement){
-    this.onServerCreated.emit(new ServerElement(serverNameInput.value,serverContentInput.value,'server'))
-    //this.serverElements.push(new ServerElement(this.name,this.content,'server'));
+  onAddServer(){
+    this.onServerCreated.emit(new ServerElement(this.serverNameInput.nativeElement.value,
+                                                this.serverContentInput.nativeElement.value,'server'));
   }
 
-  onAddBluePrint(serverNameInput : HTMLInputElement, serverContentInput : HTMLInputElement){
-    this.onBluePrintCreated.emit(new ServerElement(serverNameInput.value, serverContentInput.value,'blueprint'))
-    //this.serverElements.push(new ServerElement(this.name,this.content,'blueprint'))
+  onAddBluePrint(){
+    this.onBluePrintCreated.emit(new ServerElement(this.serverNameInput.nativeElement.value, 
+                                                   this.serverContentInput.nativeElement.value,'blueprint'))
   }
-
 }
